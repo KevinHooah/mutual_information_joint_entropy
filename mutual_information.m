@@ -19,12 +19,21 @@ function [mutualInformation, jointEntropy, entropy1, entropy2] = mutual_informat
         end
     end    
     
-    edgex = min(X):(max(X)-min(X))/nbins:max(X)+(max(X)-min(X))/nbins; % creat bins
-    edgey = min(Y):(max(Y)-min(Y))/nbins:max(Y)+(max(Y)-min(Y))/nbins; % creat bins
-    % and extra bin is added at the end to ensure the numbers in the top
-    % bin are accounted for
-    im1 = discretize(X,edgex); % bin X
-    im2 = discretize(Y,edgey); % bin Y
+    binlx = (max(X)-min(X))/nbins; %length of bins
+    binly = (max(Y)-min(Y))/nbins; %length of bins
+    
+    if binlx == 0
+        im1 = X;
+    else
+        edgex = min(X):binlx:max(X)+(max(X)-min(X))/nbins; % creat bins
+        im1 = discretize(X,edgex); % bin X
+    end
+    if binly == 0
+        im2 = Y;
+    else
+        edgey = min(Y):binly:max(Y)+(max(Y)-min(Y))/nbins; % creat bins
+        im2 = discretize(Y,edgey); % bin Y
+    end
     
     % accumarray assumes that you are trying to index into the output array 
     % using integers, but we can still certainly accomplish what we want 
